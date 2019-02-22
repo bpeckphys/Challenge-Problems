@@ -10,7 +10,7 @@ public class TrieTestRunner {
 
         DictionaryInterface dictionary = new tempDictionary();  //Put your class here
 
-        File testFile = new File("/tests.txt");
+        File testFile = new File("TrieDictionary/src/tests");
         Scanner scanner = null;
 
         try {
@@ -52,9 +52,9 @@ public class TrieTestRunner {
 
     }
 
-    public static <T> void testEquality(T a, T b, String inputLine) {
-        if(!a.equals(b)) {
-            System.out.println("Test Fail, " + inputLine + " should be " + a + " instead returned " + b);
+    public static <T> void testEquality(T actual, T expected, String inputLine) {
+        if(!actual.equals(expected)) {
+            System.out.println("Test Failed, \"" + inputLine + "\" expected a return of \"" + expected + "\" instead returned \"" + actual + "\"");
         }
     }
 
