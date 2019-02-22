@@ -1,0 +1,13 @@
+test 1: simple add and find
+contains me false
+add me true
+contains me true
+clear
+
+test 2: add multiple words, including duplicates
+add corn true
+add cob true
+add corn false
+contains corn true
+contains cob true
+clear
