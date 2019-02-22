@@ -1,4 +1,4 @@
-package TrieDictionary;
+package triedictionary;
 
 public class TrieTestRunner {
 

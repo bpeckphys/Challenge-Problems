@@ -1,4 +1,4 @@
-package TrieDictionary.SampleBinaryTree;
+package sampleBinaryTree;
 
 public class BinaryTreeAccessor {
 
