@@ -10,48 +10,48 @@ package triedictionary;
  * @author Brenton
  */
 public class TrieDictionary implements DictionaryInterface {
-    TrieNode root = new RootNode();
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    boolean isWord;
+    char c;
+    
+    TrieDictionary[] trie = new TrieDictionary[26];
+    
+    public TrieDictionary(char c, boolean isWord){
+        this.c = c;
+        this.isWord = isWord;
     }
     
     @Override
     public boolean addWord(String word) {
-        if (!hasWord(word)) {
-            for (int i = 0; i < word.length(); i++) {
-                if(!root.findChar(word.charAt(i))){
-                    if(i == word.length() - 1){
-                        root.addTrieNode(word.charAt(i), true);
-                        System.out.println("Adding " + word.charAt(i));
-                        System.out.println("Word was added");
-                        return true;
-                    }else{
-                        root.addTrieNode(word.charAt(i), false);
-                        System.out.println("Adding " + word.charAt(i));
-                    }
-                }
-                root = root.child[word.charAt(i) - 'a'];
-            }
+        if (trie[word.charAt(0) - 'a'] == null) {
+            trie[word.charAt(0) - 'a'] = new TrieDictionary(word.charAt(0),false);
         }
-        System.out.println("Word already exists");
-        return false;
+        if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
+            if (trie[word.charAt(0) - 'a'].isWord) {
+                return false;
+            }
+            trie[word.charAt(0) - 'a'].isWord = true;
+            return true;
+        }
+        if (word.length() == 1) {
+            trie[word.charAt(0) - 'a'].isWord = true;
+            return true;
+        }
+        return trie[word.charAt(0) - 'a'].addWord(word.substring(1));
     }
 
     @Override
     public boolean hasWord(String word) {
-        for (int i = 0; i < word.length(); i++) {
-            if (!root.findChar(word.charAt(i))) {
-                return false;
-            }
-            root = root.child[word.charAt(i) - 'a'];
-            if (root.isWord && i == word.length() - 1) {
+        //System.out.println(word);
+        if (trie[word.charAt(0) - 'a'] == null) {
+            return false;
+        }
+        if (word.length() == 1) {
+            if (trie[word.charAt(0) - 'a'].isWord) {
                 return true;
             }
+            return false;
         }
-        return false;
+        return trie[word.charAt(0) - 'a'].hasWord(word.substring(1));
     }
 
     @Override
@@ -74,3 +74,4 @@ public class TrieDictionary implements DictionaryInterface {
 
     }
 }
+
