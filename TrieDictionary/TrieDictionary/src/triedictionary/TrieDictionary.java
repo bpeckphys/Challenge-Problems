@@ -12,6 +12,7 @@ package triedictionary;
 public class TrieDictionary implements DictionaryInterface {
     boolean isWord;
     char c;
+    int children = 0;
     
     TrieDictionary[] trie = new TrieDictionary[26];
     
@@ -23,6 +24,7 @@ public class TrieDictionary implements DictionaryInterface {
     @Override
     public boolean addWord(String word) {
         if (trie[word.charAt(0) - 'a'] == null) {
+            children++;
             trie[word.charAt(0) - 'a'] = new TrieDictionary(word.charAt(0),false);
         }
         if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
@@ -41,7 +43,6 @@ public class TrieDictionary implements DictionaryInterface {
 
     @Override
     public boolean hasWord(String word) {
-        //System.out.println(word);
         if (trie[word.charAt(0) - 'a'] == null) {
             return false;
         }
@@ -66,7 +67,25 @@ public class TrieDictionary implements DictionaryInterface {
 
     @Override
     public boolean deleteWord(String word) {
-        return false;
+        if (!hasWord(word)) {
+            return false;
+        }
+        if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
+            if (trie[word.charAt(0) - 'a'].isWord) {
+                if (trie[word.charAt(0) - 'a'].trie == null || trie[word.charAt(0) - 'a'].children == 0) {
+                    trie[word.charAt(0) - 'a'] = null;
+                    return true;
+                }
+                if (trie[word.charAt(0) - 'a'].trie != null) {
+                    trie[word.charAt(0) - 'a'].isWord = false;
+                    return true;
+                }
+            }
+            if (trie[word.charAt(0) - 'a'].isWord) {
+                return false;
+            }
+        }
+        return trie[word.charAt(0) - 'a'].deleteWord(word.substring(1));
     }
 
     @Override

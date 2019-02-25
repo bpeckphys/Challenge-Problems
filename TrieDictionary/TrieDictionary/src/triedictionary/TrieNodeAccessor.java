@@ -23,6 +23,13 @@ public class TrieNodeAccessor {
         System.out.println("Add 'boy': " + root.addWord("boy"));
         System.out.println("Add 'boys': " + root.addWord("boys"));
         System.out.println("Find 'bossy': " + root.hasWord("bossy"));
+        
+        System.out.println("Delete 'bad': " + root.deleteWord("bad"));
+        System.out.println("Find 'bad': " + root.hasWord("bad"));
+        
+        System.out.println("Delete 'boy': " + root.deleteWord("boy"));
+        System.out.println("Find 'boy': " + root.hasWord("boy"));
+        System.out.println("Find 'boys': " + root.hasWord("boys"));
     }
     
 }
