@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ManualDictionaryRunner {
 
     public static void main(String args[]) {
-        DictionaryInterface dictionary = new TrieTestRunner.tempDictionary();   //put your dictionary instantiation here
+        DictionaryInterface dictionary = new Dictionary();   //put your dictionary instantiation here
 
         Scanner scanner = new Scanner(System.in);
 
@@ -40,7 +40,7 @@ public class ManualDictionaryRunner {
                 case "wordCount":
                     System.out.println(dictionary.totalWordCount());
                     break;
-                case "break":
+                case "quit":
                     return;
                 default:
                     System.out.println("You must have mistyped a command, try again");

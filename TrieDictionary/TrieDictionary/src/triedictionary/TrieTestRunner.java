@@ -8,9 +8,9 @@ public class TrieTestRunner {
     public static void main(String args[]) {
 
 
-        DictionaryInterface dictionary = new tempDictionary();  //Put your class here
+        DictionaryInterface dictionary = new Dictionary();  //Put your class here
 
-        File testFile = new File("TrieDictionary/src/tests");
+        File testFile = new File("src/tests");
         Scanner scanner = null;
 
         try {

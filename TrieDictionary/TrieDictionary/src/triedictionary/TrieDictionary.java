@@ -9,7 +9,7 @@ package triedictionary;
  *
  * @author Brenton
  */
-public class TrieDictionary implements DictionaryInterface {
+public class TrieDictionary {
     boolean isWord;
     char c;
     int children = 0;
@@ -21,7 +21,6 @@ public class TrieDictionary implements DictionaryInterface {
         this.isWord = isWord;
     }
     
-    @Override
     public boolean addWord(String word) {
         if (trie[word.charAt(0) - 'a'] == null) {
             children++;
@@ -34,14 +33,9 @@ public class TrieDictionary implements DictionaryInterface {
             trie[word.charAt(0) - 'a'].isWord = true;
             return true;
         }
-        if (word.length() == 1) {
-            trie[word.charAt(0) - 'a'].isWord = true;
-            return true;
-        }
         return trie[word.charAt(0) - 'a'].addWord(word.substring(1));
     }
 
-    @Override
     public boolean hasWord(String word) {
         if (trie[word.charAt(0) - 'a'] == null) {
             return false;
@@ -55,21 +49,23 @@ public class TrieDictionary implements DictionaryInterface {
         return trie[word.charAt(0) - 'a'].hasWord(word.substring(1));
     }
 
-    @Override
-    public int totalWordCount() {
-        return 0;
-    }
-
-    @Override
     public int getNodeCount() {
-        return 0;
+        int count = 0;
+        for (int i = 0; i < 26; i++) {
+            if (trie[i] == null) {
+                if (i == 25) {
+                    return 0;
+                }
+                continue;
+            }
+            if (trie[i] != null) {
+                count = 1 + trie[i].getNodeCount();
+            }
+        }
+        return count;
     }
 
-    @Override
     public boolean deleteWord(String word) {
-        if (!hasWord(word)) {
-            return false;
-        }
         if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
             if (trie[word.charAt(0) - 'a'].isWord) {
                 if (trie[word.charAt(0) - 'a'].trie == null || trie[word.charAt(0) - 'a'].children == 0) {
@@ -87,14 +83,6 @@ public class TrieDictionary implements DictionaryInterface {
             }
         }
         return trie[word.charAt(0) - 'a'].deleteWord(word.substring(1));
-    }
-
-    @Override
-    public void clearDictionary() {
-        this.children = 0;
-        for (int i = 0; i < 26; i++) {
-            trie[i] = null;
-        }
     }
 }
 
