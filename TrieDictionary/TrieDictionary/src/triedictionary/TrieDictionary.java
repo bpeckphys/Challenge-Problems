@@ -91,8 +91,8 @@ public class TrieDictionary implements DictionaryInterface {
 
     @Override
     public void clearDictionary() {
+        this.children = 0;
         for (int i = 0; i < 26; i++) {
-            this.children = 0;
             trie[i] = null;
         }
     }
