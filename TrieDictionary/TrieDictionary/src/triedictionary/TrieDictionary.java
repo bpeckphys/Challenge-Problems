@@ -73,6 +73,7 @@ public class TrieDictionary implements DictionaryInterface {
         if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
             if (trie[word.charAt(0) - 'a'].isWord) {
                 if (trie[word.charAt(0) - 'a'].trie == null || trie[word.charAt(0) - 'a'].children == 0) {
+                    children--;
                     trie[word.charAt(0) - 'a'] = null;
                     return true;
                 }
@@ -90,7 +91,10 @@ public class TrieDictionary implements DictionaryInterface {
 
     @Override
     public void clearDictionary() {
-
+        for (int i = 0; i < 26; i++) {
+            this.children = 0;
+            trie[i] = null;
+        }
     }
 }
 
