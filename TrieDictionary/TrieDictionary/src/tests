@@ -11,3 +11,36 @@ add corn false
 contains corn true
 contains cob true
 clear
+
+test 3: deleting
+delete people false
+contains people false
+add people true
+contains people true
+delete people true
+contains people false
+clear
+
+test 4: word count
+wordCount 0
+add adam true
+wordCount 1
+add adam false
+wordCount 1
+add brenton true
+wordCount 2
+delete jehosaphat false
+wordCount 2
+delete adam true
+wordCount 1
+clear
+
+test 5: node count
+nodeCount 1
+add staff true
+nodeCount 6
+add make true
+nodeCount 10
+add stuff true
+nodeCount 13
+clear
