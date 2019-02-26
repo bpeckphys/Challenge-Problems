@@ -39,7 +39,7 @@ public class Dictionary implements DictionaryInterface {
 
     @Override
     public int getNodeCount() {
-        return 0;
+        return root.getNodeCount();
     }
 
     @Override

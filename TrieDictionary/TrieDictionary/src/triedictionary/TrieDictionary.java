@@ -50,16 +50,16 @@ public class TrieDictionary {
     }
 
     public int getNodeCount() {
-        int count = 0;
+        int count = 1;
         for (int i = 0; i < 26; i++) {
             if (trie[i] == null) {
                 if (i == 25) {
-                    return 0;
+                    return count;
                 }
                 continue;
             }
             if (trie[i] != null) {
-                count = 1 + trie[i].getNodeCount();
+                count = count + trie[i].getNodeCount();
             }
         }
         return count;
