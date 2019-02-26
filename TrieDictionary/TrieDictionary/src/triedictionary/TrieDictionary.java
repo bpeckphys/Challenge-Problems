@@ -5,6 +5,8 @@
  */
 package triedictionary;
 
+import java.util.HashMap;
+
 /**
  *
  * @author Brenton
@@ -14,75 +16,73 @@ public class TrieDictionary {
     char c;
     int children = 0;
     
-    TrieDictionary[] trie = new TrieDictionary[26];
+    // update trie to something like childNodes
+    HashMap<Character, TrieDictionary> trie;
     
     public TrieDictionary(char c, boolean isWord){
+        this.trie = new HashMap<>();
         this.c = c;
         this.isWord = isWord;
     }
     
     public boolean addWord(String word) {
-        if (trie[word.charAt(0) - 'a'] == null) {
-            children++;
-            trie[word.charAt(0) - 'a'] = new TrieDictionary(word.charAt(0),false);
+        if (!trie.containsKey(word.charAt(0))) {
+            trie.put(word.charAt(0), new TrieDictionary(word.charAt(0),false));
         }
-        if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
-            if (trie[word.charAt(0) - 'a'].isWord) {
+        if (word.length() == 1) {
+            if (trie.get(word.charAt(0)).isWord) {
                 return false;
             }
-            trie[word.charAt(0) - 'a'].isWord = true;
+            trie.get(word.charAt(0)).isWord = true;
             return true;
         }
-        return trie[word.charAt(0) - 'a'].addWord(word.substring(1));
+        return trie.get(word.charAt(0)).addWord(word.substring(1));
     }
 
     public boolean hasWord(String word) {
-        if (trie[word.charAt(0) - 'a'] == null) {
+        if (!trie.containsKey(word.charAt(0))) {
             return false;
         }
         if (word.length() == 1) {
-            if (trie[word.charAt(0) - 'a'].isWord) {
+            if (trie.get(word.charAt(0)).isWord) {
                 return true;
             }
             return false;
         }
-        return trie[word.charAt(0) - 'a'].hasWord(word.substring(1));
+        return trie.get(word.charAt(0)).hasWord(word.substring(1));
     }
 
     public int getNodeCount() {
         int count = 1;
-        for (int i = 0; i < 26; i++) {
-            if (trie[i] == null) {
-                if (i == 25) {
-                    return count;
-                }
-                continue;
+        for (Character c : trie.keySet()) {
+            if (trie.isEmpty()) {
+                return count;
             }
-            if (trie[i] != null) {
-                count = count + trie[i].getNodeCount();
+            if (!trie.isEmpty()) {
+                count = count + trie.get(c).getNodeCount();
             }
         }
         return count;
     }
 
     public boolean deleteWord(String word) {
-        if (trie[word.charAt(0) - 'a'].c == word.charAt(0) && word.length() == 1) {
-            if (trie[word.charAt(0) - 'a'].isWord) {
-                if (trie[word.charAt(0) - 'a'].trie == null || trie[word.charAt(0) - 'a'].children == 0) {
+        if (trie.get(word.charAt(0)).c == word.charAt(0)) {
+            if (trie.get(word.charAt(0)).isWord) {
+                if (trie.get(word.charAt(0)).trie.isEmpty() || trie.get(word.charAt(0)).children == 0) {
                     children--;
-                    trie[word.charAt(0) - 'a'] = null;
+                    trie.remove(word.charAt(0));
                     return true;
                 }
-                if (trie[word.charAt(0) - 'a'].trie != null) {
-                    trie[word.charAt(0) - 'a'].isWord = false;
+                if (trie.get(word.charAt(0)).trie != null) {
+                    trie.get(word.charAt(0)).isWord = false;
                     return true;
                 }
             }
-            if (trie[word.charAt(0) - 'a'].isWord) {
+            if (trie.get(word.charAt(0)).isWord) {
                 return false;
             }
         }
-        return trie[word.charAt(0) - 'a'].deleteWord(word.substring(1));
+        return trie.get(word.charAt(0)).deleteWord(word.substring(1));
     }
 }
 
