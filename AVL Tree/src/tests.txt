@@ -1,0 +1,28 @@
+test 1: simple add and find
+1 contains 4 false
+2 add 4 true
+4 contains 4 true
+5 contains 5 false
+6 add 5 true
+7 contains 5 true
+8 add 3 true
+9 contains 3 true
+10 balanced
+
+test 2: right side refactor
+1 add 6 true
+2 add 7 true
+3 add 8 true
+4 balanced
+5 contains 6 true
+6 contains 7 true
+7 contains 8 true
+
+test 3: left side refactor
+1 add 6 true
+2 add 5 true
+3 add 4 true
+4 balanced
+5 contains 6 true
+6 contains 5 true
+7 contains 4 true
