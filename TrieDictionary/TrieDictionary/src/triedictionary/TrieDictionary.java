@@ -19,37 +19,47 @@ public class TrieDictionary {
     // update trie to something like childNodes
     HashMap<Character, TrieDictionary> trie;
     
+    public TrieDictionary() {
+        this.trie = new HashMap<>();
+        this.isWord = false;
+    }
+    
     public TrieDictionary(char c, boolean isWord){
         this.trie = new HashMap<>();
-        this.c = c;
         this.isWord = isWord;
     }
     
     public boolean addWord(String word) {
-        if (!trie.containsKey(word.charAt(0))) {
-            trie.put(word.charAt(0), new TrieDictionary(word.charAt(0),false));
+        char firstChar = word.charAt(0);
+
+        if (!trie.containsKey(firstChar)) {
+                trie.put(firstChar, new TrieDictionary(firstChar,false));
         }
+
         if (word.length() == 1) {
-            if (trie.get(word.charAt(0)).isWord) {
-                return false;
-            }
-            trie.get(word.charAt(0)).isWord = true;
-            return true;
+                if (trie.get(firstChar).isWord) {
+                        return false;
+                }
+
+                trie.get(firstChar).isWord = true;
+                return true;
         }
-        return trie.get(word.charAt(0)).addWord(word.substring(1));
+
+        return trie.get(firstChar).addWord(word.substring(1));
     }
 
     public boolean hasWord(String word) {
-        if (!trie.containsKey(word.charAt(0))) {
-            return false;
-        }
-        if (word.length() == 1) {
-            if (trie.get(word.charAt(0)).isWord) {
-                return true;
+            char firstChar = word.charAt(0);
+
+            if (!trie.containsKey(firstChar)) {
+                    return false;
             }
-            return false;
-        }
-        return trie.get(word.charAt(0)).hasWord(word.substring(1));
+
+            if (word.length() == 1) {
+                    return trie.get(firstChar).isWord;
+            }
+
+            return trie.get(firstChar).hasWord(word.substring(1));
     }
 
     public int getNodeCount() {
@@ -66,23 +76,36 @@ public class TrieDictionary {
     }
 
     public boolean deleteWord(String word) {
-        if (trie.get(word.charAt(0)).c == word.charAt(0)) {
-            if (trie.get(word.charAt(0)).isWord) {
-                if (trie.get(word.charAt(0)).trie.isEmpty() || trie.get(word.charAt(0)).children == 0) {
-                    children--;
-                    trie.remove(word.charAt(0));
-                    return true;
-                }
-                if (trie.get(word.charAt(0)).trie != null) {
-                    trie.get(word.charAt(0)).isWord = false;
-                    return true;
-                }
+            char firstChar = word.charAt(0);
+
+            // Base case
+            if (!trie.containsKey(firstChar)) {
+                    return false;
             }
-            if (trie.get(word.charAt(0)).isWord) {
-                return false;
+
+            TrieDictionary subTree = trie.get(firstChar);
+
+            if (word.length() == 1) {
+                    if (!subTree.isWord) {
+                            return false;
+                    }
+
+                    if (subTree.trie.isEmpty()) {
+                            trie.remove(firstChar);
+                            return true;
+                    }
+
+                    subTree.isWord = false;
+                    return true;
             }
-        }
-        return trie.get(word.charAt(0)).deleteWord(word.substring(1));
+
+            // Recursive case
+            if (subTree.deleteWord(word.substring(1)) && subTree.trie.isEmpty()) {
+                    trie.remove(firstChar);
+                    return true;
+            }
+
+            return false;
     }
 }
 
