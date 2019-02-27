@@ -11,7 +11,7 @@ public class AvlTreeTestRunner {
 
         AvlNodeInterface avlTree = new BlankAvl();
 
-        File testingFile = new File("src/tests.txt");
+        File testingFile = new File("AvlTree/src/avlTree/tests.txt");
         Scanner scanner = null;
 
         try {
@@ -24,26 +24,29 @@ public class AvlTreeTestRunner {
         while(scanner.hasNextLine()) {
             String input = scanner.nextLine();
             String[] arguments = input.split(" ");
-            if(arguments.length < 2) {
-                System.out.println(input);
-                continue;
+            System.out.println(input);
+
+
+            if(avlTree == null) {
+                System.out.println("Something has gone terribly wrong and we lost the reference to your tree.  You lose. Good day sir!");
+                break;
             }
 
             switch(arguments[1]) {
                 case "add":
-                    testEquality(avlTree.add(Integer.parseInt(arguments[2])), Boolean.parseBoolean(arguments[3]), input);
+                    avlTree = avlTree.add(Integer.parseInt(arguments[2]));
                     break;
                 case "contains":
                     testEquality(avlTree.contains(Integer.parseInt(arguments[2])), Boolean.parseBoolean(arguments[3]), input);
                     break;
                 case "delete":
-                    testEquality(avlTree.remove(Integer.parseInt(arguments[2])), Boolean.parseBoolean(arguments[3]), input);
+                    avlTree = avlTree.remove(Integer.parseInt(arguments[2]));
                     break;
                 case "balanced":
                     testEquality(maxHeight(avlTree) >= 0, true, input);
                     break;
                 default:
-                    System.out.println(input);
+                    //System.out.println(input);
             }
 
 
@@ -80,13 +83,13 @@ public class AvlTreeTestRunner {
         }
 
         @Override
-        public boolean add(int number) {
-            return false;
+        public AvlNodeInterface add(int number) {
+            return null;
         }
 
         @Override
-        public boolean remove(int number) {
-            return false;
+        public AvlNodeInterface remove(int number) {
+            return null;
         }
 
         @Override
