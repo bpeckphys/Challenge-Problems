@@ -1,3 +1,5 @@
+package avltree;
+
 public interface AvlNodeInterface {
 
 
@@ -5,9 +7,9 @@ public interface AvlNodeInterface {
 
     AvlNodeInterface getRightChild();
 
-    boolean add(int number);
+    AvlNodeInterface add(int number);
 
-    boolean remove(int number);
+    AvlNodeInterface remove(int number);
 
     boolean contains(int number);
 
