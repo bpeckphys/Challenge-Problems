@@ -9,9 +9,9 @@ public class AvlTreeTestRunner {
     public static void main(String args[]) {
 
 
-        AvlNodeInterface avlTree = new BlankAvl();
+        AvlNodeInterface avlTree = new AvlTree();
 
-        File testingFile = new File("AvlTree/src/avlTree/tests.txt");
+        File testingFile = new File("src/avlTree/tests.txt");
         Scanner scanner = null;
 
         try {
@@ -24,13 +24,17 @@ public class AvlTreeTestRunner {
         while(scanner.hasNextLine()) {
             String input = scanner.nextLine();
             String[] arguments = input.split(" ");
-            System.out.println(input);
 
 
             if(avlTree == null) {
                 System.out.println("Something has gone terribly wrong and we lost the reference to your tree.  You lose. Good day sir!");
                 break;
             }
+            
+            if(arguments.length < 2) {
+                continue;
+            }
+            System.out.println(input);
 
             switch(arguments[1]) {
                 case "add":

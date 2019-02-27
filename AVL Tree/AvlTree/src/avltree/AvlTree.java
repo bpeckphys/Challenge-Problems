@@ -20,6 +20,10 @@ public class AvlTree implements AvlNodeInterface {
         this.value = value;
     }
     
+    public AvlTree(){
+        
+    }
+    
     @Override
     public AvlTree getLeftChild() {
         if (leftChild == null) {
@@ -151,20 +155,20 @@ public class AvlTree implements AvlNodeInterface {
         return false;
     }
     
-    public int maxHeight(AvlNodeInterface avlNode){
+    public int maxHeight(AvlTree avlNode){
         int leftHeight;
         int rightHeight;
         
-        if (this.getLeftChild() == null) {
+        if (avlNode == null) {
             leftHeight = 0;
         } else {
-            leftHeight = maxHeight(avlNode.getLeftChild());
+            leftHeight = maxHeight(avlNode.leftChild);
         }
         
-        if (this.getRightChild() == null) {
+        if (avlNode == null) {
             rightHeight = 0;
         } else {
-            rightHeight = maxHeight(avlNode.getRightChild());
+            rightHeight = maxHeight(avlNode.rightChild);
         }
         
         return Math.max(leftHeight, rightHeight);
