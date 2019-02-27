@@ -51,6 +51,7 @@ public class AvlTreeTestRunner {
                     break;
                 default:
                     //System.out.println(input);
+                    avlTree = new AvlTree();
             }
 
 

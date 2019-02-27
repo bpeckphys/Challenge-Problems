@@ -26,3 +26,8 @@ test 3: left side refactor
 5 contains 6 true
 6 contains 5 true
 7 contains 4 true
+
+test 4: delete
+1 add 4 true
+2 delete 4 true
+3 delete 4 false
