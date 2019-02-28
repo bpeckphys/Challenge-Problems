@@ -93,7 +93,7 @@ public class AvlTree implements AvlNodeInterface {
         if (number == value) {
             
             if (leftChild == null && rightChild == null) {
-                return null;
+                return new AvlTree();
             }
             
             if (leftChild == null) {

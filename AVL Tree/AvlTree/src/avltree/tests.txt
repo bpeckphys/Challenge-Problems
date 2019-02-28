@@ -7,13 +7,13 @@ test 1: simple add and find
 7 contains 5 true
 8 add 3
 9 contains 3 true
-10 balanced
+10 balanced true
 
 test 2: right side refactor
 1 add 6
 2 add 7
 3 add 8
-4 balanced
+4 balanced true
 5 contains 6 true
 6 contains 7 true
 7 contains 8 true
@@ -22,7 +22,7 @@ test 3: left side refactor
 1 add 6
 2 add 5
 3 add 4
-4 balanced
+4 balanced true
 5 contains 6 true
 6 contains 5 true
 7 contains 4 true
@@ -31,3 +31,11 @@ test 4: delete
 1 add 4 true
 2 delete 4 true
 3 delete 4 false
+4 add 4 true
+5 add 10 true
+6 add 11 true
+7 delete 11 true
+8 contains 11 false
+9 delete 10 true
+10 contains 4 true
+11 balanced true
