@@ -47,7 +47,7 @@ public class AvlTreeTestRunner {
                     avlTree = avlTree.remove(Integer.parseInt(arguments[2]));
                     break;
                 case "balanced":
-                    testEquality(maxHeight(avlTree) >= 0, true, input);
+                    testEquality(isBalanced(avlTree), true, input);
                     break;
                 default:
                     //System.out.println(input);
@@ -65,15 +65,18 @@ public class AvlTreeTestRunner {
         }
     }
 
-    public static int maxHeight(AvlNodeInterface tree) {
-        int leftHeight = tree.getLeftChild() == null? 0: maxHeight(tree.getLeftChild());
-        int rightHeight = tree.getRightChild() == null? 0: maxHeight(tree.getRightChild());
-
-        if(leftHeight == -1 || rightHeight == -1) {
-            return -1;
-        }
-        return Math.abs(leftHeight - rightHeight) <=1 ? Math.max(leftHeight, rightHeight) : -1;
+    public static int height(AvlNodeInterface tree) {
+        return tree == null
+            ? 0
+            : Math.max(1 + maxHeight(tree.getLeftChild()), 1 + maxHeight(tree.getRightChild()));
     }
+
+    public static boolean isBalanced(AvlNodeInterface tree) {
+        return tree == null
+            || Math.abs(height(tree.getLeftChild()) - height(tree.getRightChild())) <= 1;
+    }
+
+    public static 
 
     public static class BlankAvl implements AvlNodeInterface {
 
