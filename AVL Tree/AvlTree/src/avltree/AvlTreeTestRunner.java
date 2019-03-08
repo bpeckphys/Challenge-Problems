@@ -9,7 +9,7 @@ public class AvlTreeTestRunner {
     public static void main(String args[]) {
 
 
-        AvlNodeInterface avlTree = new AvlTree();
+        AvlNodeInterface avlTree = new AvlTreeWrapper();
 
         File testingFile = new File("src/avlTree/tests.txt");
         Scanner scanner = null;
@@ -51,7 +51,7 @@ public class AvlTreeTestRunner {
                     break;
                 default:
                     //System.out.println(input);
-                    avlTree = new AvlTree();
+                    avlTree = new AvlTreeWrapper();
             }
 
 
@@ -68,15 +68,13 @@ public class AvlTreeTestRunner {
     public static int height(AvlNodeInterface tree) {
         return tree == null
             ? 0
-            : Math.max(1 + maxHeight(tree.getLeftChild()), 1 + maxHeight(tree.getRightChild()));
+            : Math.max(1 + height(tree.getLeftChild()), 1 + height(tree.getRightChild()));
     }
 
     public static boolean isBalanced(AvlNodeInterface tree) {
         return tree == null
             || Math.abs(height(tree.getLeftChild()) - height(tree.getRightChild())) <= 1;
     }
-
-    public static 
 
     public static class BlankAvl implements AvlNodeInterface {
 

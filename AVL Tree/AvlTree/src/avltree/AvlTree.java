@@ -9,188 +9,41 @@ package avltree;
  *
  * @author bpeck
  */
-public class AvlTree implements AvlNodeInterface {
-
-    int value;
+public class AvlTree implements AvlTreeInterface{
     
-    AvlTree leftChild = null;
-    AvlTree rightChild = null;
-    
-    public AvlTree(int value){
-        this.value = value;
-    }
+    AvlNode root;
     
     public AvlTree(){
-        
+        root = new AvlNode();
     }
     
     @Override
-    public AvlTree getLeftChild() {
-        if (leftChild == null) {
-            return null;
-        }
-        
-        return leftChild;
+    public boolean add(int number){
+        return root.add(number);
     }
     
     @Override
-    public AvlTree getRightChild() {
-        if (rightChild == null) {
-            return null;
-        }
-        
-        return rightChild;
-    }
-    
-    public AvlTree add(AvlTree avlNode) {
-        if (avlNode.value < this.value) {
-            if (leftChild == null) {
-                leftChild = avlNode;
-                return this;
-            }
-            leftChild = leftChild.add(avlNode);
-        }
-        
-        if (avlNode.value > this.value) {
-            if (rightChild == null) {
-                rightChild = avlNode;
-                return this;
-            }
-            
-            rightChild = rightChild.add(avlNode);
-        }
-        
-        return this;
-    }
-    
-    @Override
-    public AvlTree add(int number) {
-        if (number == value) {
-            return this;
-        }
-        
-        if (number < value) {
-            if (leftChild == null) {
-                leftChild = new AvlTree(number);
-                return this;
-            }
-            leftChild = leftChild.add(number);
-        }
-        
-        if (number > value) {
-            if (rightChild == null) {
-                rightChild = new AvlTree(number);
-                return this;
-            }
-            rightChild = rightChild.add(number);
-        }
-        
-        return balanceTree();
-    }
-    
-    @Override
-    public AvlTree remove(int number) {
-        if (number == value) {
-            
-            if (leftChild == null && rightChild == null) {
-                return new AvlTree();
-            }
-            
-            if (leftChild == null) {
-                return rightChild;
-            }
-            
-            if (rightChild == null) {
-                return leftChild;
-            }
-            
-            if (maxHeight(leftChild) >= maxHeight(rightChild)) {
-                rightChild.add(leftChild.rightChild);
-                return leftChild;
-            }
-            
-            leftChild.add(rightChild.leftChild);
-            return rightChild;
-        }
-        
-        if (number < value) {
-            if (leftChild == null) {
-                return this;
-            }
-            
-            leftChild = leftChild.remove(number);
-        }
-        
-        if (number > value) {
-            if (rightChild == null) {
-                return this;
-            }
-            
-            rightChild = rightChild.remove(number);
-        }
-        
-        return balanceTree();
-    }
-    
-    @Override
-    public boolean contains(int number) {
-        if (number == value) {
-            return true;
-        }
-        
-        if (number < value) {
-            if (leftChild == null) {
-                return false;
-            }
-            return leftChild.contains(number);
-        }
-        
-        if (number > value) {
-            if (rightChild == null) {
-                return false;
-            }
-            return rightChild.contains(number);
-        }
-        
+    public boolean remove(int number){
+        // TODO: implement
         return false;
     }
     
-    public int maxHeight(AvlTree avlNode){
-        int leftHeight;
-        int rightHeight;
-        
-        if (avlNode == null) {
-            leftHeight = 0;
-        } else {
-            leftHeight = maxHeight(avlNode.leftChild);
-        }
-        
-        if (avlNode == null) {
-            rightHeight = 0;
-        } else {
-            rightHeight = maxHeight(avlNode.rightChild);
-        }
-        
-        return Math.max(leftHeight, rightHeight);
+    @Override
+    public boolean containsNode(int number){
+        // TODO: implement
+        return false;
     }
     
-    public AvlTree balanceTree() {
-        if (leftChild == null && rightChild == null) {
-            return null;
-        }
-
-        if (Math.abs(maxHeight(leftChild) - maxHeight(rightChild)) > 1) {
-            if (maxHeight(leftChild) >= maxHeight(rightChild)) {
-                leftChild.add(this);
-                rightChild = rightChild.balanceTree();
-                return leftChild;
-            }
-            
-            rightChild.add(this);
-            leftChild = leftChild.balanceTree();
-            return rightChild;
-        }
+    @Override
+    public void clearTree(){
+        // TODO: implement
         
-        return this;
     }
+    
+    @Override
+    public AvlNodeInterface getRoot(){
+        // TODO: implement
+        return this.root;
+    }
+    
 }
