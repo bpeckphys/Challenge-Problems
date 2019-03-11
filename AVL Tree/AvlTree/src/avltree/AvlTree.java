@@ -19,30 +19,36 @@ public class AvlTree implements AvlTreeInterface{
     
     @Override
     public boolean add(int number){
-        return root.add(number);
+        boolean result;
+        result = root.add(number);
+        
+        root = root.balance();
+        
+        return result;
     }
     
     @Override
     public boolean remove(int number){
-        // TODO: implement
+        if (root.contains(number)) {
+            root = root.remove(number);
+            return true;
+        }
+        
         return false;
     }
     
     @Override
-    public boolean containsNode(int number){
-        // TODO: implement
-        return false;
+    public boolean contains(int number){
+        return root.contains(number);
     }
     
     @Override
     public void clearTree(){
-        // TODO: implement
-        
+        root = new AvlNode();
     }
     
     @Override
     public AvlNodeInterface getRoot(){
-        // TODO: implement
         return this.root;
     }
     

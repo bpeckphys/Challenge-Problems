@@ -18,7 +18,7 @@ public interface AvlTreeInterface {
     boolean remove(int number);
     
     // Contains a node
-    boolean containsNode(int number);
+    boolean contains(int number);
     
     // Clear all nodes
     void clearTree();
