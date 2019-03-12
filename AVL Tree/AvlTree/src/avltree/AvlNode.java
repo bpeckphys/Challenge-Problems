@@ -140,13 +140,13 @@ public class AvlNode implements AvlNodeInterface{
         }
         
         if (number < value) {
-            System.out.println(number + " is less than " + value);
+//            System.out.println(number + " is less than " + value);
             leftChild = leftChild.remove(number);
             return this;
         }
         
         if (number > value) {
-            System.out.println(number + " is greater than " + value);
+//            System.out.println(number + " is greater than " + value);
             rightChild = rightChild.remove(number);
             return this;
         }
@@ -163,48 +163,74 @@ public class AvlNode implements AvlNodeInterface{
         }
         leftHeight = 1 + maxHeight(avlNode.leftChild);
         rightHeight = 1 + maxHeight(avlNode.rightChild);
-        System.out.println("MaxHeight Left " + avlNode.value + " is " + leftHeight);
-        System.out.println("MaxHeight Right " + avlNode.value + " is " + rightHeight);
+//        System.out.println("MaxHeight Left " + avlNode.value + " is " + leftHeight);
+//        System.out.println("MaxHeight Right " + avlNode.value + " is " + rightHeight);
         
         return Math.max(leftHeight, rightHeight);
     }
     
     // TODO: Test this
-    AvlNode leftPivot(AvlNode node){
-        AvlNode temp;
+    AvlNode leftPivot(){
+        AvlNode temp, temp2;
         
         if (rightChild == null) {
             return this;
         }
         
-        if (rightChild.leftChild == null) {
-            rightChild.leftChild = this;
-            return rightChild;
+        if (rightChild.rightChild == null) {
+            System.out.println("No right child of the right child " + rightChild.value);
+            System.out.println("Balance: Doing a right pivot on " + rightChild.value);
+            rightChild = rightChild.rightPivot();
         }
         
-        temp = rightChild.leftChild;
+        if (rightChild.leftChild == null) {
+            System.out.println("No left child of the right child " + rightChild.value);
+            rightChild.leftChild = this;
+            temp = rightChild;
+            rightChild = null;
+            System.out.println("Returning rightChild " + temp.value);
+            return temp;
+        }
+        
+        System.out.println("Has child of the right child " + rightChild.value);
+        temp = rightChild;
+        temp2 = rightChild.leftChild;
         rightChild.leftChild = this;
-        rightChild.leftChild.rightChild = temp;
-        return rightChild;
+        rightChild = temp2;
+        return temp;
+        
+        
     }
     
     // TODO: Test this
-    AvlNode rightPivot(AvlNode node){
-        AvlNode temp;
+    AvlNode rightPivot(){
+        AvlNode temp, temp2;
         
         if (leftChild == null) {
             return this;
         }
         
-        if (leftChild.rightChild == null) {
-            leftChild.rightChild = this;
-            return leftChild;
+        if (leftChild.leftChild == null) {
+            System.out.println("No left child of the left child " + leftChild.value);
+            System.out.println("Balance: Doing a left pivot on " + leftChild.value);
+            leftChild = leftChild.leftPivot();
         }
         
-        temp = leftChild.rightChild;
+        if (leftChild.rightChild == null) {
+            System.out.println("No right child of the left child " + leftChild.value);
+            leftChild.rightChild = this;
+            temp = leftChild;
+            leftChild = null;
+            System.out.println("Returning leftChild " + temp.value);
+            return temp;
+        }
+        
+        System.out.println("Has child of the left child " + leftChild.value);
+        temp = leftChild;
+        temp2 = leftChild.rightChild;
         leftChild.rightChild = this;
-        leftChild.rightChild.leftChild = temp;
-        return leftChild;
+        leftChild = temp2;
+        return temp;
     }
     
     AvlNode deepestRightChild(AvlNode node){
@@ -226,30 +252,34 @@ public class AvlNode implements AvlNodeInterface{
     // TODO: Test this
     public AvlNode balance(){
         if (leftChild == null && rightChild == null) {
+            System.out.println("Balance: No children");
             return this;
         }
         
         if (leftChild == null) {
+            System.out.println("Balance: No left child");
             rightChild = rightChild.balance();
         }
         
         if (rightChild == null) {
+            System.out.println("Balance: No right child");
             leftChild = leftChild.balance();
         }
         
-        if (leftChild != null && rightChild != null) {
+        if (rightChild != null && leftChild != null) {
+            System.out.println("Balance: Both Children, recursing");
             leftChild = leftChild.balance();
             rightChild = rightChild.balance();
         }
         
         if (maxHeight(leftChild) - maxHeight(rightChild) > 1) {
-            System.out.println("     doing a right pivot");
-            return rightPivot(this);
+            System.out.println("Balance: Doing a right pivot on " + this.value);
+            return rightPivot();
         }
         
         if (maxHeight(rightChild) - maxHeight(leftChild) > 1) {
-            System.out.println("     doing a left pivot");
-            return leftPivot(this);
+            System.out.println("Balance: Doing a left pivot on " + this.value);
+            return leftPivot();
         }
         
         return this;

@@ -21,6 +21,7 @@ public class AvlTree implements AvlTreeInterface{
     public boolean add(int number){
         boolean result;
         result = root.add(number);
+//        System.out.println("Added " + number + ": " + result + " Now balancing");
         
         root = root.balance();
         
