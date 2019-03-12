@@ -57,10 +57,19 @@ public class AvlTreeTester {
         System.out.println("\n-------------------------------------------");
         System.out.println("Testing removing and contains\n");
         
+//        System.out.println("Removing 5: " + avlTree.remove(5));
+//        System.out.println("Tree contains 5: " + avlTree.contains(5));
+//        avlTree.root.printTree(avlTree.root);
+//        
+        System.out.println("Tree contains 3: " + avlTree.contains(3));
+        System.out.println("Tree contains 1: " + avlTree.contains((1)));
+        System.out.println("Tree contains 4: " + avlTree.contains(4));
         System.out.println("Removing 2: " + avlTree.remove(2));
-        System.out.println("Tree contains 3: " + avlTree.contains((3)));
-        System.out.println("Tree contains 2: " + avlTree.contains(2));
-        System.out.println("Removing 2: " + avlTree.remove(2));
+        avlTree.root.printTree(avlTree.root);
+        
+        System.out.println("Removing 1: " + avlTree.remove(1));
+        System.out.println("Removing 4: " + avlTree.remove(4));
+        avlTree.root.printTree(avlTree.root);
         
         System.out.println("\n-------------------------------------------");
         System.out.println("Testing clear\n");

@@ -103,6 +103,7 @@ public class AvlNode implements AvlNodeInterface{
     }
     
     AvlNode remove(int number){
+        AvlNode temp;
         if (number == value) {
             if (leftChild == null && rightChild == null) {
                 return null;
@@ -117,26 +118,22 @@ public class AvlNode implements AvlNodeInterface{
             }
             
             if (maxHeight(leftChild) > maxHeight(rightChild)) {
-                if (leftChild.rightChild == null) {
-                    return leftChild;
-                }
-
-                if (rightChild != null) {
-                    deepestRightChild(leftChild).rightChild = rightChild;
-                    return leftChild.balance();
-                }
+                temp = rightChild;
+                leftChild.deepestRightChild().rightChild = temp;
+                return leftChild;
             }
             
             if (maxHeight(rightChild) > maxHeight(leftChild)) {
-                if (rightChild.leftChild == null) {
-                    return rightChild;
-                }
-                
-                if (leftChild != null) {
-                    deepestLeftChild(rightChild).leftChild = leftChild;
-                    return rightChild.balance();
-                }
+                temp = leftChild;
+                rightChild.deepestLeftChild().leftChild = temp;
+                return rightChild;
             }
+            
+            // If no height difference, pivot right
+            temp = rightChild;
+            System.out.println("");
+            leftChild.deepestRightChild().rightChild = temp;
+            return leftChild;
         }
         
         if (number < value) {
@@ -169,7 +166,6 @@ public class AvlNode implements AvlNodeInterface{
         return Math.max(leftHeight, rightHeight);
     }
     
-    // TODO: Test this
     AvlNode leftPivot(){
         AvlNode temp, temp2;
         
@@ -198,11 +194,8 @@ public class AvlNode implements AvlNodeInterface{
         rightChild.leftChild = this;
         rightChild = temp2;
         return temp;
-        
-        
     }
     
-    // TODO: Test this
     AvlNode rightPivot(){
         AvlNode temp, temp2;
         
@@ -233,20 +226,20 @@ public class AvlNode implements AvlNodeInterface{
         return temp;
     }
     
-    AvlNode deepestRightChild(AvlNode node){
-        if (node.rightChild == null) {
+    AvlNode deepestRightChild(){
+        if (rightChild == null) {
             return this;
         }
         
-        return deepestRightChild(node.rightChild);
+        return rightChild.deepestRightChild();
     }
     
-    AvlNode deepestLeftChild(AvlNode node){
-        if (node.leftChild == null) {
+    AvlNode deepestLeftChild(){
+        if (leftChild == null) {
             return this;
         }
         
-        return deepestLeftChild(node.leftChild);
+        return leftChild.deepestLeftChild();
     }
     
     // TODO: Test this
@@ -274,12 +267,12 @@ public class AvlNode implements AvlNodeInterface{
         
         if (maxHeight(leftChild) - maxHeight(rightChild) > 1) {
             System.out.println("Balance: Doing a right pivot on " + this.value);
-            return rightPivot();
+            return rightPivot().balance();
         }
         
         if (maxHeight(rightChild) - maxHeight(leftChild) > 1) {
             System.out.println("Balance: Doing a left pivot on " + this.value);
-            return leftPivot();
+            return leftPivot().balance();
         }
         
         return this;
@@ -292,11 +285,21 @@ public class AvlNode implements AvlNodeInterface{
         
         if (node.leftChild != null) {
             System.out.println("Left Child is: " + node.leftChild.value);
+            if (node.rightChild != null) {
+                System.out.println("Right Child is: " + node.rightChild.value);
+            } else {
+                System.out.println("No Right Child");
+            }
             printTree(node.leftChild);
         }
         
         if (node.rightChild != null) {
             System.out.println("Right Child is: " + node.rightChild.value);
+            if (node.leftChild != null) {
+                System.out.println("Left Child is: " + node.leftChild.value);
+            } else {
+                System.out.println("No Left Child");
+            }
             printTree(node.rightChild);
         }
         
