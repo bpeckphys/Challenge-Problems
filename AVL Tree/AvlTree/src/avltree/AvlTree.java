@@ -32,9 +32,9 @@ public class AvlTree implements AvlTreeInterface{
     public boolean remove(int number){
         if (root.contains(number)) {
             root = root.remove(number);
-            root.printTree(root);
+            root.printTree();
             root = root.balance();
-            root.printTree(root);
+            root.printTree();
             return true;
         }
         
@@ -54,6 +54,11 @@ public class AvlTree implements AvlTreeInterface{
     @Override
     public AvlNodeInterface getRoot(){
         return this.root;
+    }
+    
+    @Override
+    public void printTree(){
+        root.printTree();
     }
     
 }

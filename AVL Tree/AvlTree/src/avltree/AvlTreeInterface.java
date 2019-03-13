@@ -26,4 +26,7 @@ public interface AvlTreeInterface {
     // Get root node; if no root node return null
     AvlNodeInterface getRoot();
     
+    // Print the tree
+    void printTree();
+    
 }

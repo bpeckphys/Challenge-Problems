@@ -131,7 +131,6 @@ public class AvlNode implements AvlNodeInterface{
             
             // If no height difference, pivot right
             temp = rightChild;
-            System.out.println("");
             leftChild.deepestRightChild().rightChild = temp;
             return leftChild;
         }
@@ -174,21 +173,21 @@ public class AvlNode implements AvlNodeInterface{
         }
         
         if (rightChild.rightChild == null) {
-            System.out.println("No right child of the right child " + rightChild.value);
-            System.out.println("Balance: Doing a right pivot on " + rightChild.value);
+//            System.out.println("No right child of the right child " + rightChild.value);
+//            System.out.println("Balance: Doing a right pivot on " + rightChild.value);
             rightChild = rightChild.rightPivot();
         }
         
         if (rightChild.leftChild == null) {
-            System.out.println("No left child of the right child " + rightChild.value);
+//            System.out.println("No left child of the right child " + rightChild.value);
             rightChild.leftChild = this;
             temp = rightChild;
             rightChild = null;
-            System.out.println("Returning rightChild " + temp.value);
+//            System.out.println("Returning rightChild " + temp.value);
             return temp;
         }
         
-        System.out.println("Has child of the right child " + rightChild.value);
+//        System.out.println("Has child of the right child " + rightChild.value);
         temp = rightChild;
         temp2 = rightChild.leftChild;
         rightChild.leftChild = this;
@@ -204,21 +203,21 @@ public class AvlNode implements AvlNodeInterface{
         }
         
         if (leftChild.leftChild == null) {
-            System.out.println("No left child of the left child " + leftChild.value);
-            System.out.println("Balance: Doing a left pivot on " + leftChild.value);
+//            System.out.println("No left child of the left child " + leftChild.value);
+//            System.out.println("Balance: Doing a left pivot on " + leftChild.value);
             leftChild = leftChild.leftPivot();
         }
         
         if (leftChild.rightChild == null) {
-            System.out.println("No right child of the left child " + leftChild.value);
+//            System.out.println("No right child of the left child " + leftChild.value);
             leftChild.rightChild = this;
             temp = leftChild;
             leftChild = null;
-            System.out.println("Returning leftChild " + temp.value);
+//            System.out.println("Returning leftChild " + temp.value);
             return temp;
         }
         
-        System.out.println("Has child of the left child " + leftChild.value);
+//        System.out.println("Has child of the left child " + leftChild.value);
         temp = leftChild;
         temp2 = leftChild.rightChild;
         leftChild.rightChild = this;
@@ -245,65 +244,65 @@ public class AvlNode implements AvlNodeInterface{
     // TODO: Test this
     public AvlNode balance(){
         if (leftChild == null && rightChild == null) {
-            System.out.println("Balance: No children");
+//            System.out.println("Balance: No children");
             return this;
         }
         
         if (leftChild == null) {
-            System.out.println("Balance: No left child");
+//            System.out.println("Balance: No left child");
             rightChild = rightChild.balance();
         }
         
         if (rightChild == null) {
-            System.out.println("Balance: No right child");
+//            System.out.println("Balance: No right child");
             leftChild = leftChild.balance();
         }
         
         if (rightChild != null && leftChild != null) {
-            System.out.println("Balance: Both Children, recursing");
+//            System.out.println("Balance: Both Children, recursing");
             leftChild = leftChild.balance();
             rightChild = rightChild.balance();
         }
         
         if (maxHeight(leftChild) - maxHeight(rightChild) > 1) {
-            System.out.println("Balance: Doing a right pivot on " + this.value);
+//            System.out.println("Balance: Doing a right pivot on " + this.value);
             return rightPivot().balance();
         }
         
         if (maxHeight(rightChild) - maxHeight(leftChild) > 1) {
-            System.out.println("Balance: Doing a left pivot on " + this.value);
+//            System.out.println("Balance: Doing a left pivot on " + this.value);
             return leftPivot().balance();
         }
         
         return this;
     }
     
-    public void printTree(AvlNode node){
-        if (node.value != null) {
-            System.out.println("Root is: " + node.value);
+    public void printTree(){
+        if (value != null) {
+            System.out.println("Root is: " + value);
         }
         
-        if (node.leftChild != null) {
-            System.out.println("Left Child is: " + node.leftChild.value);
-            if (node.rightChild != null) {
-                System.out.println("Right Child is: " + node.rightChild.value);
+        if (leftChild != null) {
+            System.out.println("Left Child is: " + leftChild.value);
+            if (rightChild != null) {
+                System.out.println("Right Child is: " + rightChild.value);
             } else {
                 System.out.println("No Right Child");
             }
-            printTree(node.leftChild);
+            leftChild.printTree();
         }
         
-        if (node.rightChild != null) {
-            System.out.println("Right Child is: " + node.rightChild.value);
-            if (node.leftChild != null) {
-                System.out.println("Left Child is: " + node.leftChild.value);
+        if (rightChild != null) {
+            System.out.println("Right Child is: " + rightChild.value);
+            if (leftChild != null) {
+                System.out.println("Left Child is: " + leftChild.value);
             } else {
                 System.out.println("No Left Child");
             }
-            printTree(node.rightChild);
+            rightChild.printTree();
         }
         
-        if (node.rightChild == null && node.leftChild == null) {
+        if (rightChild == null && leftChild == null) {
             System.out.println("No more nodes");
         }
     }
