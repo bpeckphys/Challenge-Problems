@@ -14,11 +14,14 @@ public class AvlTree implements AvlTreeInterface{
     AvlNode root;
     
     public AvlTree(){
-        root = new AvlNode();
+        root = null;
     }
     
     @Override
     public boolean add(int number){
+        if (root == null) {
+            root = new AvlNode();
+        }
         boolean result;
         result = root.add(number);
 //        System.out.println("Added " + number + ": " + result + " Now balancing");
@@ -30,11 +33,15 @@ public class AvlTree implements AvlTreeInterface{
     
     @Override
     public boolean remove(int number){
+        if (root == null) {
+            return false;
+        }
         if (root.contains(number)) {
             root = root.remove(number);
-            root.printTree();
+            if (root == null) {
+                return false;
+            }
             root = root.balance();
-            root.printTree();
             return true;
         }
         
@@ -43,6 +50,9 @@ public class AvlTree implements AvlTreeInterface{
     
     @Override
     public boolean contains(int number){
+        if (root == null) {
+            return false;
+        }
         return root.contains(number);
     }
     

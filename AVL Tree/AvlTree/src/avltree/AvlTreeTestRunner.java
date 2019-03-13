@@ -10,7 +10,7 @@ public class AvlTreeTestRunner {
 
         AvlTreeInterface avlTree = new AvlTree();
 
-        File testingFile = new File("avlTree/tests.txt");
+        File testingFile = new File("src/avlTree/tests.txt");
         System.out.println(testingFile.getAbsolutePath());
         Scanner scanner = null;
 
