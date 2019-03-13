@@ -8,10 +8,10 @@ public class AvlTreeTestRunner {
 
     public static void main(String args[]) {
 
+        AvlTreeInterface avlTree = new AvlTree();
 
-        AvlNodeInterface avlTree = new AvlTreeWrapper();
-
-        File testingFile = new File("src/avlTree/tests.txt");
+        File testingFile = new File("avlTree/tests.txt");
+        System.out.println(testingFile.getAbsolutePath());
         Scanner scanner = null;
 
         try {
@@ -38,20 +38,20 @@ public class AvlTreeTestRunner {
 
             switch(arguments[1]) {
                 case "add":
-                    avlTree = avlTree.add(Integer.parseInt(arguments[2]));
+                    avlTree.add(Integer.parseInt(arguments[2]));
                     break;
                 case "contains":
                     testEquality(avlTree.contains(Integer.parseInt(arguments[2])), Boolean.parseBoolean(arguments[3]), input);
                     break;
                 case "delete":
-                    avlTree = avlTree.remove(Integer.parseInt(arguments[2]));
+                    avlTree.remove(Integer.parseInt(arguments[2]));
                     break;
                 case "balanced":
                     testEquality(isBalanced(avlTree), true, input);
                     break;
                 default:
                     //System.out.println(input);
-                    avlTree = new AvlTreeWrapper();
+                    avlTree = new AvlTree();
             }
 
 
@@ -65,43 +65,35 @@ public class AvlTreeTestRunner {
         }
     }
 
-    public static int height(AvlNodeInterface tree) {
-        return tree == null
-            ? 0
-            : Math.max(1 + height(tree.getLeftChild()), 1 + height(tree.getRightChild()));
+    /**
+     * An AVL tree is balanced if the heights of its left and right subtrees differ by at most one,
+     * AND the subtrees themselves are balanced.
+     */
+    public static boolean isBalanced(AvlTreeInterface tree) {
+        return isBalancedRec(tree.getRoot()) >= 0;
     }
 
-    public static boolean isBalanced(AvlNodeInterface tree) {
-        return tree == null
-            || Math.abs(height(tree.getLeftChild()) - height(tree.getRightChild())) <= 1;
-    }
-
-    public static class BlankAvl implements AvlNodeInterface {
-
-        @Override
-        public AvlNodeInterface getLeftChild() {
-            return null;
+    /**
+     * Returns the height of the tree (x >= 0) if it is balanced, otherwise returns -1.
+     * Doing it this way avoids recomputing the height at each level.
+     */
+    private static int isBalancedRec(AvlNodeInterface tree) {
+        if (tree == null)
+        {
+            return 0;
         }
 
-        @Override
-        public AvlNodeInterface getRightChild() {
-            return null;
+        int leftHeight, rightHeight;
+
+        // If either subtree is unbalanced, or the difference in their heights is > 1, then this tree is unbalanced.
+        if (    (leftHeight = isBalancedRec(tree.getLeftChild()))  < 0
+            || (rightHeight = isBalancedRec(tree.getRightChild())) < 0
+            || Math.abs(leftHeight - rightHeight) > 1)
+        {
+            return -1;
         }
 
-        @Override
-        public AvlNodeInterface add(int number) {
-            return null;
-        }
-
-        @Override
-        public AvlNodeInterface remove(int number) {
-            return null;
-        }
-
-        @Override
-        public boolean contains(int number) {
-            return false;
-        }
+        return 1 + Math.max(leftHeight, rightHeight);
     }
 
 }
