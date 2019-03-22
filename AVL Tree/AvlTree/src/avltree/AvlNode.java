@@ -5,6 +5,9 @@
  */
 package avltree;
 
+import java.util.Queue;
+import java.util.LinkedList;
+
 /**
  *
  * @author bpeck
@@ -119,22 +122,21 @@ public class AvlNode implements AvlNodeInterface{
                 return leftChild;
             }
             
-            if (maxHeight(leftChild) > maxHeight(rightChild)) {
-                temp = rightChild;
-                leftChild.deepestRightChild().rightChild = temp;
-                return leftChild;
-            }
-            
-            if (maxHeight(rightChild) > maxHeight(leftChild)) {
-                temp = leftChild;
-                rightChild.deepestLeftChild().leftChild = temp;
+            if (rightChild.leftChild == null) {
+                rightChild.leftChild = leftChild;
                 return rightChild;
             }
             
-            // If no height difference, pivot right
-            temp = rightChild;
-            leftChild.deepestRightChild().rightChild = temp;
-            return leftChild;
+            temp = rightChild.secondDeepestLeftChild().leftChild;
+            if (rightChild.secondDeepestLeftChild().leftChild.rightChild == null) {
+                rightChild.secondDeepestLeftChild().leftChild = null;
+            } else {
+                rightChild.secondDeepestLeftChild().leftChild = rightChild.secondDeepestLeftChild().leftChild.rightChild;
+            }
+            
+            temp.leftChild = leftChild;
+            temp.rightChild = rightChild;
+            return temp;
         }
         
         if (number < value) {
@@ -217,64 +219,16 @@ public class AvlNode implements AvlNodeInterface{
         return temp;
     }
     
-    AvlNode leftPivot(){
-        AvlNode temp, temp2;
-        
-        if (rightChild == null) {
-            return this;
-        }
-        
-        if (rightChild.rightChild == null) {
-//            System.out.println("No right child of the right child " + rightChild.value);
-//            System.out.println("Balance: Doing a right pivot on " + rightChild.value);
-            rightChild = rightChild.rightPivot();
-        }
-        
-        if (rightChild.leftChild == null) {
-//            System.out.println("No left child of the right child " + rightChild.value);
-            rightChild.leftChild = this;
-            temp = rightChild;
-            rightChild = null;
-//            System.out.println("Returning rightChild " + temp.value);
-            return temp;
-        }
-        
-//        System.out.println("Has child of the right child " + rightChild.value);
-        temp = rightChild;
-        temp2 = rightChild.leftChild;
-        rightChild.leftChild = this;
-        rightChild = temp2;
-        return temp;
-    }
-    
-    AvlNode rightPivot(){
-        AvlNode temp, temp2;
-        
+    AvlNode secondDeepestLeftChild(){
         if (leftChild == null) {
             return this;
         }
         
         if (leftChild.leftChild == null) {
-//            System.out.println("No left child of the left child " + leftChild.value);
-//            System.out.println("Balance: Doing a left pivot on " + leftChild.value);
-            leftChild = leftChild.leftPivot();
+            return this;
         }
         
-        if (leftChild.rightChild == null) {
-//            System.out.println("No right child of the left child " + leftChild.value);
-            leftChild.rightChild = this;
-            temp = leftChild;
-            leftChild = null;
-//            System.out.println("Returning leftChild " + temp.value);
-            return temp;
-        }
-        
-//        System.out.println("Has child of the left child " + leftChild.value);
-        temp = leftChild;
-        temp2 = leftChild.rightChild;
-        leftChild.rightChild = this;
-        leftChild = temp2;
-        return temp;
+        return leftChild.secondDeepestLeftChild();
     }
     
     AvlNode deepestRightChild(){
@@ -283,14 +237,6 @@ public class AvlNode implements AvlNodeInterface{
         }
         
         return rightChild.deepestRightChild();
-    }
-    
-    AvlNode deepestLeftChild(){
-        if (leftChild == null) {
-            return this;
-        }
-        
-        return leftChild.deepestLeftChild();
     }
     
     public Integer getBalanceFactor(){
@@ -383,17 +329,205 @@ public class AvlNode implements AvlNodeInterface{
             return leftLeftPivot();
         }
         
-//        if (maxHeight(leftChild) - maxHeight(rightChild) > 1) {
-//            System.out.println("Balance: Doing a right pivot on " + this.value);
-//            return rightPivot().balance();
-//        }
-//        
-//        if (maxHeight(rightChild) - maxHeight(leftChild) > 1) {
-//            System.out.println("Balance: Doing a left pivot on " + this.value);
-//            return leftPivot().balance();
-//        }
-        
         return this;
+    }
+    
+    public void printTreeBF(){
+        Queue<AvlNode> printQueue = new LinkedList<>();
+        
+        if (this == null) {
+            return;
+        }
+        
+        printQueue.add(this);
+        
+        while (!printQueue.isEmpty()) {
+            AvlNode currentNode = printQueue.peek();
+            
+            if (currentNode.leftChild == null && currentNode.rightChild == null) {
+                System.out.println(" " + currentNode.value + " ");
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.leftChild == null) {
+                printQueue.add(currentNode.rightChild);
+                System.out.println(" " + currentNode.value + " ");
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.rightChild == null) {
+                printQueue.add(currentNode.leftChild);
+                System.out.println(" " + currentNode.value + " ");
+                printQueue.remove();
+                continue;
+            }
+            
+            printQueue.add(currentNode.leftChild);
+            printQueue.add(currentNode.rightChild);
+            System.out.println(" " + currentNode.value + " ");
+            printQueue.remove();
+        }
+        
+    }
+    
+    // TODO: Implement this
+    public void printTreeBFVisual() {
+        int largestDigitNumber = deepestRightChild().value.toString().length();
+        int breadthFactor = (int) Math.pow(2, maxHeight(this) - 1);
+        int maxWidth = (int) breadthFactor * largestDigitNumber + (int) breadthFactor - 1;
+        System.out.println("largestDigitNumber " + largestDigitNumber);
+        System.out.println("breadthFactor " + breadthFactor);
+        System.out.println("maxWidth " + maxWidth);
+        int level = 1;
+        int levelChars = (int) Math.pow(2, level - 1);
+        int spacingWidth = maxWidth - levelChars * largestDigitNumber;
+        String spacing = new String(new char[spacingWidth]).replace("\0", " ");
+        String emptySpacing = new String(new char[largestDigitNumber]).replace("\0", " ");
+        String padding = "";
+        int count = 0;
+        
+        Queue<AvlNode> printQueue = new LinkedList<>();
+        AvlNode emptyNode = new AvlNode(0);
+        emptyNode.value = null;
+        
+        if (this == null) {
+            return;
+        }
+        
+        int valueLength;
+        
+        printQueue.add(this);
+        System.out.print(spacing);
+        
+        while (!printQueue.isEmpty()) {
+            AvlNode currentNode = printQueue.peek();
+            valueLength = currentNode.value.toString().length();
+            count++;
+            System.out.println("Level " + level);
+            System.out.println("Count " + count);
+            System.out.println("Nodes on level: " + (int) Math.pow(2, level - 1));
+            
+            if (largestDigitNumber != valueLength) {
+                padding = new String(new char[largestDigitNumber - valueLength]).replace(null," ");
+            }
+            
+            if (count > Math.pow(2, level - 1)) {
+                level++;
+                System.out.println("Level increased to " + level);
+                levelChars = (int) Math.pow(2, level - 1);
+                spacingWidth = maxWidth - levelChars * largestDigitNumber;
+                spacing = new String(new char[spacingWidth]).replace("\0", " ");
+                System.out.print("\n" + spacing);
+            }
+            
+            if (currentNode.leftChild == null && currentNode.rightChild == null && level < this.maxHeight(this)) {
+                System.out.println("No child nodes so creating empty nodes");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                
+                printQueue.add(emptyNode);
+                printQueue.add(emptyNode);
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.leftChild == null && currentNode.rightChild == null) {
+                System.out.println("No child nodes and final level");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.leftChild == null && level < this.maxHeight(this)) {
+                System.out.println("No left child node so creating an empty node");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                printQueue.add(emptyNode);
+                printQueue.add(currentNode.rightChild);
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.leftChild == null) {
+                System.out.println("No left child node and final level");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.rightChild == null && level < this.maxHeight(this)) {
+                System.out.println("No right child node so creating an empty node");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                printQueue.add(currentNode.leftChild);
+                printQueue.add(emptyNode);
+                printQueue.remove();
+                continue;
+            }
+            
+            if (currentNode.rightChild == null) {
+                System.out.println("No right child node and final level");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                printQueue.remove();
+                continue;
+            }
+            
+            if (level < this.maxHeight(this)) {
+                System.out.println("Adding child nodes to queue");
+                if (currentNode.value == null) {
+                    System.out.print(emptySpacing + spacing);
+                }
+                if (currentNode.value != null) {
+                    System.out.print(currentNode.value + spacing);
+                }
+                printQueue.add(currentNode.leftChild);
+                printQueue.add(currentNode.rightChild);
+                printQueue.remove();
+                continue;
+            }
+            
+            System.out.println("Final level, no more nodes to add");
+            if (currentNode.value == null) {
+                System.out.print(emptySpacing + spacing);
+            }
+            
+            if (currentNode.value != null) {
+                System.out.print(currentNode.value + spacing);
+            }
+            
+            printQueue.remove();
+        }
+        
+        System.out.println("\n");
     }
     
     public void printTree(){

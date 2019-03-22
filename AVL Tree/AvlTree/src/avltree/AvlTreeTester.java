@@ -30,24 +30,25 @@ public class AvlTreeTester {
         System.out.println("\n-------------------------------------------");
         System.out.println("Testing adding and balancing\n");
         System.out.println("Adding 7 to tree: " + avlTree.add(7));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 8 to tree: " + avlTree.add(8));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Adding 9 to tree: " + avlTree.add(9));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Tree contains 9: " + avlTree.contains((9)));
         System.out.println("Adding 10 to tree: " + avlTree.add(10));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Adding 15 to tree: " + avlTree.add(15));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Adding 4 to tree: " + avlTree.add(4));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Adding 5 to tree: " + avlTree.add(5));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Adding 6 to tree: " + avlTree.add(6));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         System.out.println("Adding 1 to tree: " + avlTree.add(1));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         
         
         System.out.println("\n-------------------------------------------");
@@ -65,11 +66,11 @@ public class AvlTreeTester {
         System.out.println("Tree contains 1: " + avlTree.contains((1)));
         System.out.println("Tree contains 4: " + avlTree.contains(4));
         System.out.println("Removing 2: " + avlTree.remove(2));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         
         System.out.println("Removing 1: " + avlTree.remove(1));
         System.out.println("Removing 4: " + avlTree.remove(4));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         
         System.out.println("\n-------------------------------------------");
         System.out.println("Testing clear\n");
@@ -100,12 +101,48 @@ public class AvlTreeTester {
         System.out.println("Adding 18 to tree: " + avlTree.add(18));
         System.out.println("Adding 19 to tree: " + avlTree.add(19));
         System.out.println("Adding 20 to tree: " + avlTree.add(20));
-        avlTree.root.printTree();
+//        avlTree.root.printTree();
         
         System.out.println("\n-------------------------------------------");
         System.out.println("Testing more removes\n");
         System.out.println("Removing 8: " + avlTree.remove(8));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        System.out.println("Testing more removes\n");
+        System.out.println("Removing 9: " + avlTree.remove(9));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        System.out.println("Testing more removes\n");
+        System.out.println("Removing 16: " + avlTree.remove(16));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        System.out.println("Testing more removes\n");
+        System.out.println("Removing 4: " + avlTree.remove(4));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        System.out.println("Testing more removes\n");
+        System.out.println("Removing 5: " + avlTree.remove(5));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        System.out.println("Testing more removes\n");
+        System.out.println("Removing 6: " + avlTree.remove(6));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        System.out.println("Testing more removes\n");
+        System.out.println("Removing 2: " + avlTree.remove(2));
+//        avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
         avlTree.root.printTree();
+        
+        System.out.println("\n-------------------------------------------");
+        avlTree.root.printTreeBF();
     }
     
 }

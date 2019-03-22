@@ -41,6 +41,7 @@ public class AvlTree implements AvlTreeInterface{
             if (root == null) {
                 return false;
             }
+            System.out.println("Balancing!!!!!!!!!!!");
             root = root.balance();
             return true;
         }
