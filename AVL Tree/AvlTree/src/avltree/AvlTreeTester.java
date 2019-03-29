@@ -34,21 +34,29 @@ public class AvlTreeTester {
         avlTree.root.printTreeBFVisual();
         System.out.println("Adding 8 to tree: " + avlTree.add(8));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 9 to tree: " + avlTree.add(9));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Tree contains 9: " + avlTree.contains((9)));
         System.out.println("Adding 10 to tree: " + avlTree.add(10));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 15 to tree: " + avlTree.add(15));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 4 to tree: " + avlTree.add(4));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 5 to tree: " + avlTree.add(5));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 6 to tree: " + avlTree.add(6));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         System.out.println("Adding 1 to tree: " + avlTree.add(1));
 //        avlTree.root.printTree();
+        avlTree.root.printTreeBFVisual();
         
         
         System.out.println("\n-------------------------------------------");
